@@ -17,62 +17,260 @@ library(dplyr)
 ```
 
 ### Load data
-
+dfd 
 
 
 ```{r load-data}
 load("brfss2013.RData")
 ```
-
+ 
 
 * * *
 
 ## Part 1: Data
 
+First, let's look at the information of the dataset which we are dealing with:
 
-Let's berifly review some concepts we have lernt so far from the course. You may remember from 
+### The Behavioral Risk Factor Surveillance System (BRFSS) - 2013 
 
-[lecture video on week 1 Section: Observational Studies & Experiments](https://www.coursera.org/learn/probability-intro/lecture/Qw8iF/observational-studies-experiments), that  observational studies can provide evidence of a naturally occurring association between variables, but they cannot by themselves show a causal connection. Researchers perform an observational study when they collect data in a way that does not directly interfere with how the data arise. For instance, researchers may collect information via
-surveys, review medical or company records,
+From [BRFSS Overview](https://www.cdc.gov/brfss/annual_data/2013/pdf/Overview_2013.pdf)
 
-When researchers want to investigate the possibility of a causal connection, they conduct an experiment.
+The Behavioral Risk Factor Surveillance System (BRFSS) is a collaborative project between all of the states in the United States (US) and participating US territories and the Centers for Disease Control and Prevention (CDC). The BRFSS is administered and supported by CDC’s Population Health Surveillance Branch, under the Division of Population Health at the National Center for Chronic Disease Prevention and Health Promotion. BRFSS is an ongoing surveillance system designed to measure behavioral risk factors for the non-institutionalized adult population (18 years of age and older) residing in the US. The BRFSS was initiated in 1984, with 15 states collecting surveillance data on risk behaviors through monthly telephone interviews. Over time, the number of states participating in the survey increased; by 2001, 50 states, the District of Columbia, Puerto Rico, Guam, and the US Virgin Islands were participating in the BRFSS. Today, all 50 states, the District of Columbia, Puerto Rico, and Guam collect data annually and American Samoa, Federated States of Micronesia, and Palau collect survey data over a limited point- in-time (usually one to three months). In this document, the term “state” is used to refer to all areas participating in BRFSS, including the District of Columbia, Guam, and the Commonwealth of Puerto Rico.
 
-To check if there really is a causal connection between the explanatory variable and the response, researchers will collect a sample of individuals and split them into groups. The individuals in each group are assigned a treatment. When individuals are randomly assigned to a group, the experiment is called a randomized experiment.
-
-
-### BUt our data
 The BRFSS objective is to collect uniform, state-specific data on preventive health practices and risk behaviors that are linked to chronic diseases, injuries, and preventable infectious diseases that affect the adult population. Factors assessed by the BRFSS in 2013 include tobacco use, HIV/AIDS knowledge and prevention, exercise, immunization, health status, healthy days — health-related quality of life, health care access, inadequate sleep, hypertension awareness, cholesterol awareness, chronic health conditions, alcohol consumption, fruits and vegetables consumption, arthritis burden, and seatbelt use. Since 2011, BRFSS conducts both landline telephone- and cellular telephone-based surveys. In conducting the BRFSS landline telephone survey, interviewers collect data from a randomly selected adult in a household. In conducting the cellular telephone version of the BRFSS questionnaire, interviewers collect data from an adult who participates by using a cellular telephone and resides in a private residence or college housing.
 
+Health characteristics estimated from the BRFSS pertain to the non-institutionalized adult population, aged 18 years or older, who reside in the US. In 2013, additional question sets were included as optional modules to provide a measure for several childhood health and wellness indicators, including asthma prevalence for people aged 17 years or younger.
 
-### my anwer
+### Review some concepts form the course useful answering the first question
 
-This is an observational study. Since the study does not make use of random assignment. 
+Let's briefly review some concepts we have learned so far from the course. You may remember from [lecture video on week 1 Section: Observational Studies & Experiments](https://www.coursera.org/learn/probability-intro/lecture/Qw8iF/observational-studies-experiments), that  observational studies can provide evidence of a naturally occurring association between variables, but they cannot by themselves show a causal connection. Researchers perform an observational study when they collect data in a way that does not directly interfere with how the data arise. For instance, researchers may collect information via
+surveys, review medical or company records, and etc.
 
-However, because we have choosen samples randomly through selected adult, therefor e resulted sample may represent a population. Therefore study result is generaizable to the pupulation at large. But, random assignment only occures only in experimental settings, Through random assignment we ensure that different characteristics are represented equally in treatment and control groups. Finally, random assignment allows us to make causal conclusions based on the study. 
+When researchers want to investigate the possibility of a causal connection, they conduct an experiment. To check if there really is a causal connection between the explanatory variable and the response, researchers will collect a sample of individuals and split them into groups. The individuals in each group are assigned a treatment. When individuals are randomly assigned to a group, the experiment is called a randomized experiment.
 
-remember from course video in week 1 that most of the observational studies have random sampling but not random assignments and therefore are not casual , but generaizable. 
-![random assignments table from course video](img/ran_sam.jpg) 
+There is a good table categorizing these concepts from the course video in the week 1. It emphasizes that most of the observational studies have random sampling but not random assignments and therefore are not casual , but generalizable:
+
+<center>
+
+![Table 1. random assignments and sampling table from the course video](img/ran_sam.jpg) 
+
+</center>
+
+
+### Answering the project's first question
+
+The question is :
+
+**Describe how the observations in the sample are collected, and the implications of this data collection method on the scope of inference (generalizability / causality).**
+
+Based on what we have reviewed and looking at the dataset information, we can say that this is an **observational study**. It states that in conducting the BRFSS landline telephone survey, interviewers collect data from a randomly selected adult in a household. We only have chosen samples randomly through selected adults, therefore resulted sample may represent the population. So,this study is generalizable to the population at large. However, we see that Since 2011, BRFSS conducts both landline telephone- and cellular telephone-based surveys. For the cellular telephone-based surveys, interviewers collect data from an adult who participates by using a cellular telephone and resides in a private residence or college housing. This part of the study is not randomly selected. Therefore, it may raise convenience bias. So, for this part, we would not generalize the sample to the whole population.  
+
+However, Since the study does not make use of any random assignment, it can't be used for causality study.Random assignment only occurs only in experimental settings. Through random assignment we ensure that different characteristics are represented equally in treatment and control groups. Also, random assignment allows us to make causal conclusions based on the study. 
+
 
 * * *
 
 ## Part 2: Research questions
 
-**Research quesion 1:**
+In this part, we want to contemplate some research questions. 
+The BRFSS objective is to collect uniform, state-specific data on preventive health practices and risk behaviors that are linked to **chronic diseases**, **injuries**, and **preventable infectious diseases** that affect the adult population.Thus, it would be interesting to look at some factors like tobacco use, HIV/AIDS knowledge and prevention, exercise, immunization, health status, healthy days — health-related quality of life, health care access, inadequate sleep, hypertension awareness, cholesterol awareness, chronic health conditions, alcohol consumption, fruits and vegetables consumption, arthritis burden, and seatbelt use.
 
-**Research quesion 2:**
+For the main part of survey, we are interested in 3 variables that affect the adult population;
 
-**Research quesion 3:**
+ 1. Chronic diseases
+ 2. Preventable infectious diseases 
+ 3. Injuries 
+ 
+On the other hand, we have data on preventive health practices and risk behaviors that are linked to above variables. Some of the main factors are:
+
+- tobacco use,
+- HIV/AIDS knowledge and prevention,
+- exercise,
+- immunization,
+- health status,
+- healthy days — health-related quality of life,
+- health care access,
+- inadequate sleep,
+- hypertension awareness,
+- cholesterol awareness,
+- chronic health conditions,
+- alcohol consumption,
+- fruits and vegetables consumption,
+- arthritis burden,
+- seat-belt use.
+
+**For our final project, I only focus on the main part of the survey and I will investigate 3 main questions as below;**
+
+**Research question 1:**
+As a first question, we might be interested in exploring the factors may have a relationship with the chronic diseases. Some of the factors seem more likely to have relationship with chronic diseases such as:
+
+- Hypertension awareness,
+- Cholesterol awareness, 
+- Alcohol consumption
+- Exercise 
+- Tobacco use 
+- Inadequate sleep
+
+So, for the first question I'd like to focus on if some of the above factors have relationship with the chronic diseases or not. From the codebook I will choose the below columns and variables to specifically investigate heart attack case:
+
+from Main Survey - Section 7 - Chronic Health Conditions
+
+-**cvdinfr4**: Ever Diagnosed With Heart Attack
+
+-_**rfchol**: High Cholesterol Calculated Variable
+
+-_**rfsmok3**: Current Smoking Calculated Variable
+
+-_**rfhype5**: High Blood Pressure Calculated Variable
 
 
+
+**Research question 2:**
+As a second question, i will look at the relationship between preventable infectious diseases and factors like HIV/AIDS knowledge and prevention , and immunization. It seems having knowledge about HIV/AIDS and prevention method could decrease risk of HIV infectious. Also , having better immune system may prevent bodey from infections. 
+
+Finally, for this question, form the codebook I will choose the below columns and variables:
+
+- 
+
+
+**Research question 3:**
+For the third question, we might be interested in exploring the relationship between injuries and the possible factors such as seatbelt usea and health care access. 
+
+Finally, for this question, form the codebook I will choose the below columns and variables:
+
+- 
 * * *
 
 ## Part 3: Exploratory data analysis
 
-NOTE: Insert code chunks as needed by clicking on the "Insert a new code chunk" 
-button (green button with orange arrow) above. Make sure that your code is visible
-in the project you submit. Delete this note when before you submit your work.
 
-**Research quesion 1:**
+**Research question 1:**
+
+```{r}
+
+```
+
+ To achieve this, we familiarize ourselves with the variables **cvdinfr4**,     _**rfchol** , _**rfsmok3**, and _**rfhype5**. First we check the codebook (see Appendix), then we explore the data. 
+ 
+  We can use the dplyr chain to select the variables of interest and investigate only their structure by adding str() at the end of the chain:
+
+
+let's select 3 variable:
+```{r eval=FALSE}
+brfss2013 %>% 
+ select(cvdinfr4,_rfchol,_rfsmok3,_rfhype5) %>% 
+ str()
+```
+We got an error! Nice, this is a part of EDA! Your job is to find relevant data you want. So let's find the error source. If we look at the names of columns in the dataset we'll find out that we need to add X letter at the front of some of the above variables. 
+
+
+```{r eval=FALSE}
+names(brfss2013)
+```
+Now, we run the code again with corrected variable names;
+```{r}
+brfss2013 %>% 
+ select(cvdinfr4,X_rfchol,X_rfsmok3,X_rfhype5) %>% 
+ str()
+```
+These are factor variables, in fact they are ordinal and by default the levels are listed in alphabetical order. Since they are categorical variables, we can summarize the occurrences of each level with group_by() and summarise():
+
+
+```{r}
+brfss2013 %>% 
+  group_by(cvdinfr4) %>% 
+  summarise(count = n())
+```
+
+We have an error telling us Factor `cvdinfr4` contains implicit NA, consider using `forcats::fct_explicit_na`. If we check this data from codebook we could see NA value which is related to Don't know/ Not sure, Refused and Missing labels. So, we might want to exclude these observations from our analysis. We can do so by filtering them out.
+```{r}
+brfss2013 %>% 
+  filter( cvdinfr4 != "Don't know") %>%
+  group_by(cvdinfr4) %>% 
+  summarise(count = n())
+```
+Note that adding the filter also got rid of the NA entries. NA (Not Available) is used to indicate blank entries – those observations for which there is no data recorded.
+
+**We can also visualize and describe single categorical variables through bar plots: **
+
+```{r}
+ggplot(data=brfss2013, aes(x=cvdinfr4)) +
+  geom_bar() +xlab("Ever Diagnosed With Heart Attack") 
+```
+
+We can also similarly view the levels for the other variables;
+
+```{r}
+brfss2013%>% 
+  group_by(X_rfchol) %>% 
+  summarise(count = n())
+```
+This set also has NA entries, 
+```{r}
+brfss2013 %>% 
+  filter(!is.na(X_rfchol)) %>%
+  group_by(X_rfchol) %>% 
+  summarise(count = n())
+```
+For the smoking variable; 
+```{r}
+brfss2013%>% 
+  filter(!is.na(X_rfsmok3)) %>%
+  group_by(X_rfsmok3) %>% 
+  summarise(count = n())
+```
+
+Again for hypertension variable; 
+```{r}
+brfss2013%>% 
+  filter(!is.na(X_rfhype5)) %>%
+  group_by(X_rfhype5) %>% 
+  summarise(count = n())
+```
+
+Now, I want to evaluate relationship between two categorical variables. One of the ways is contingency table. But, for better visualization I choose segmented bar plot to see if the 3 variables or factors are associated with heart attack or not. Via visualization we may notice a relationship between each of the factors related to depended variables which here is having heart attack:
+
+```{r}
+heart_attack_smoking <- brfss2013 %>%
+  filter(! is.na(cvdinfr4), ! is.na(X_rfsmok3))  %>%
+  select(cvdinfr4, X_rfsmok3) 
+ggplot(heart_attack_smoking , aes(fill= X_rfsmok3, x=cvdinfr4 ) ) + 
+    geom_bar(position = "fill") + xlab("having heart attack considering if person smokes or not") + ylab("Proportion") + scale_fill_discrete(name="Do you smoke?")
+```
+
+
+
+As we observe from the above plot, there is not very clear relationship between person smoking status with having heart attack. For both bars the proportion is almost similar. Let's investigate two other variables, high cholesterol and high blood pressure. We will see these factors are more likely related to hear attack; 
+
+```{r}
+heart_attack_cholesterol <- brfss2013 %>%
+  filter(! is.na(cvdinfr4), ! is.na(X_rfchol))  %>%
+  select(cvdinfr4, X_rfchol) 
+ggplot(heart_attack_cholesterol, aes(fill=X_rfchol  , x=cvdinfr4 ) ) + 
+    geom_bar(position = "fill") + xlab("having heart attack ") + ylab("Proportion") + scale_fill_discrete(name="High Cholesterol?")
+```
+
+
+
+
+We can see that people who ever had a heart attack mostly had have a high cholesterol. And, for the people didn't have heart attack we see more No or not having high cholesterol. Therefore, we might say that it is likely having heart attack is related to high cholesterol.  
+
+
+```{r}
+heart_attack_blood_pre <- brfss2013 %>%
+  filter(! is.na(cvdinfr4), ! is.na(X_rfhype5))  %>%
+  select(cvdinfr4, X_rfhype5) 
+ggplot(heart_attack_blood_pre, aes(fill=X_rfhype5 , x=cvdinfr4 ) ) + 
+    geom_bar(position = "fill") + xlab("having heart attack  ")+ylab("Proportion") + scale_fill_discrete(name="High blood pressure?")
+```
+
+
+Very similar to cholesterol we observe that people who ever had a heart attack mostly had have a high blood pressure. Therefore, we might say that it is likely having heart attack is related to having high blood pressure.
+
+To sum up, as an answer to the first question, we observe that having heart attack is more related to high cholesterol and high pressure rather than smoking. 
+
+
+**Research question 2:**
 
 ```{r}
 
@@ -80,15 +278,7 @@ in the project you submit. Delete this note when before you submit your work.
 
 
 
-**Research quesion 2:**
-
-```{r}
-
-```
-
-
-
-**Research quesion 3:**
+**Research question 3:**
 
 ```{r}
 
