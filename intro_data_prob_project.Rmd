@@ -17,7 +17,7 @@ library(dplyr)
 ```
 
 ### Load data
-dfd 
+
 
 
 ```{r load-data}
@@ -75,70 +75,61 @@ However, Since the study does not make use of any random assignment, it can't be
 In this part, we want to contemplate some research questions. 
 The BRFSS objective is to collect uniform, state-specific data on preventive health practices and risk behaviors that are linked to **chronic diseases**, **injuries**, and **preventable infectious diseases** that affect the adult population.Thus, it would be interesting to look at some factors like tobacco use, HIV/AIDS knowledge and prevention, exercise, immunization, health status, healthy days — health-related quality of life, health care access, inadequate sleep, hypertension awareness, cholesterol awareness, chronic health conditions, alcohol consumption, fruits and vegetables consumption, arthritis burden, and seatbelt use.
 
-For the main part of survey, we are interested in 3 variables that affect the adult population;
 
- 1. Chronic diseases
- 2. Preventable infectious diseases 
- 3. Injuries 
- 
-On the other hand, we have data on preventive health practices and risk behaviors that are linked to above variables. Some of the main factors are:
+**Here I will only investigate 3 research questions:**
 
-- tobacco use,
-- HIV/AIDS knowledge and prevention,
-- exercise,
-- immunization,
-- health status,
-- healthy days — health-related quality of life,
-- health care access,
-- inadequate sleep,
-- hypertension awareness,
-- cholesterol awareness,
-- chronic health conditions,
-- alcohol consumption,
-- fruits and vegetables consumption,
-- arthritis burden,
-- seat-belt use.
-
-**For our final project, I only focus on the main part of the survey and I will investigate 3 main questions as below;**
 
 **Research question 1:**
-As a first question, we might be interested in exploring the factors may have a relationship with the chronic diseases. Some of the factors seem more likely to have relationship with chronic diseases such as:
+
+As a first question, we might be interested in exploring the factors may have a relationship with the chronic diseases like heart attach. Some of the factors seem more likely to have relationship with are:
 
 - Hypertension awareness,
 - Cholesterol awareness, 
 - Alcohol consumption
 - Exercise 
 - Tobacco use 
-- Inadequate sleep
 
-So, for the first question I'd like to focus on if some of the above factors have relationship with the chronic diseases or not. From the codebook I will choose the below columns and variables to specifically investigate heart attack case:
+For the first question I'd like to focus on some of the above factors. From the codebook I will choose the below columns and variables to specifically investigate heart attack case:
 
-from Main Survey - Section 7 - Chronic Health Conditions
 
--**cvdinfr4**: Ever Diagnosed With Heart Attack
+- **cvdinfr4**: Ever Diagnosed With Heart Attack
 
--_**rfchol**: High Cholesterol Calculated Variable
+- _**rfchol**: High Cholesterol Calculated Variable
 
--_**rfsmok3**: Current Smoking Calculated Variable
+- _**rfsmok3**: Current Smoking Calculated Variable
 
--_**rfhype5**: High Blood Pressure Calculated Variable
+- _**rfhype5**: High Blood Pressure Calculated Variable
 
 
 
 **Research question 2:**
-As a second question, i will look at the relationship between preventable infectious diseases and factors like HIV/AIDS knowledge and prevention , and immunization. It seems having knowledge about HIV/AIDS and prevention method could decrease risk of HIV infectious. Also , having better immune system may prevent bodey from infections. 
 
-Finally, for this question, form the codebook I will choose the below columns and variables:
+As a second question, I will look at the relationship between having diabetes 
+and factors like age , and sugar consumption. We may have an idea that sugar consumption is one of the factors of having diabetes. Also, we might be interested on relationship between age and diabetes. For both of these variables we need to look at the codebook and explore them more.
+Thus, form the codebook I will choose the below columns and variables:
 
-- 
+
+- **diabete3:** (Ever Told) You Have Diabetes
+
+- **diabage2:** Age When Told Diabetic
+ 
+- **ssbfrut2:** How Often Did You Drink Sugar-Sweetened Drinks?
+
 
 
 **Research question 3:**
-For the third question, we might be interested in exploring the relationship between injuries and the possible factors such as seatbelt usea and health care access. 
+
+For the third question, we might be interested in exploring the relationship between exercise and metal health status.
 
 Finally, for this question, form the codebook I will choose the below columns and variables:
 
-- 
+
+- **exerany2:** Exercise In Past 30 Days
+
+- **misdeprd:** How Often Feel Depressed Past 30 Days
+
+- **mishopls:** How Often Feel Hopeless Past 30 Days
+
 * * *
 
 ## Part 3: Exploratory data analysis
@@ -146,9 +137,6 @@ Finally, for this question, form the codebook I will choose the below columns an
 
 **Research question 1:**
 
-```{r}
-
-```
 
  To achieve this, we familiarize ourselves with the variables **cvdinfr4**,     _**rfchol** , _**rfsmok3**, and _**rfhype5**. First we check the codebook (see Appendix), then we explore the data. 
  
@@ -272,15 +260,202 @@ To sum up, as an answer to the first question, we observe that having heart atta
 
 **Research question 2:**
 
+Let's first look at the variables we want to explore from the codebook. 
+
+ 
+let's select 3 variable for the second question:
+```{r }
+question2 <-brfss2013 %>% 
+ select(diabete3,diabage2,ssbfrut2) %>% 
+ na.omit()
+```
+we can look the type of the variables using `str()` :
+
+
 ```{r}
+question2 %>%
+  str()
+```
+
+
+we have two factor types which are ordinal categories, and the int type.
+
+First we use `group_by` together with `summarize` to view the value counts in the `diabete3` variable:
+```{r}
+question2%>% 
+  group_by(diabete3) %>% 
+  summarise(count = n())
+```
+
+It is nice to also look at the bar plot to better visualize this variable. 
+
+```{r}
+ggplot(data=question2, aes(x=diabete3)) +
+  geom_bar() +xlab("Diabetes status") 
+```
+
+I want to have only yes and no labels for may diabetes status. I think it would help to better investigate its probable relation with other factors like sugar consumption. Thus, I filter others in diabetes variables:
+
+```{r}
+question2 <- question2 %>% 
+  filter( diabete3 != "Yes, but female told only during pregnancy",diabete3 !="No, pre-diabetes or borderline diabetes" ) 
+  
+```
+
+
+Now, if I look at the `diabete3` variable again:
+```{r}
+ggplot(data=question2, aes(x=diabete3)) +
+  geom_bar() +xlab("Diabetes status") 
+```
+
+
+Now we can explore the relationship between sugar consumption and having diabetes, but first let's look on sugar-sweetend drinks consumption.The survey have asked that during the past 30 days, how often did you drink sugar-sweetened fruit drinks (such as Kool-aid and lemonade), sweet tea, and sports or energy drinks (such as Gatorade and Red Bull)? We can look at the summary of the table as below, however from the code book consider labeling:
+
+<center>
+
+![During the past 30 days, how often did you drink sugar-sweetened fruit drinks?](img/sugar.jpg) 
+
+</center>
+
+
+
+We can also investigate the distribution of each value label through histogram :
+```{r}
+
+ggplot(data=question2, aes(ssbfrut2)) + 
+  geom_histogram(binwidth = 1)
+
+```
+
+I will only investigate having at lease 1 sugar-sweetend drink and not having at all during last 30 days. Then , I will compare it with having diabetes. So let's frist filter other labels. 
+```{r}
+question2 %>% 
+  group_by(ssbfrut2) %>%
+  summarise(count= n())
+```
+```{r}
+question2 %>%
+  filter(!is.na(ssbfrut2)) %>%
+  group_by(diabete3)
+```
+```{r}
+new <- question2 %>% 
+  mutate(ssbfrut2 = ifelse(ssbfrut2 == 0, "Not dirnking", ifelse(ssbfrut2< 500, "Drink at least 1 per day", NA)))
 
 ```
 
 
+
+```{r}
+new <-new %>% 
+  filter(!is.na(ssbfrut2)) 
+ 
+```
+
+```{r}
+ggplot(new, aes(fill=ssbfrut2  , x=diabete3 ) ) + 
+    geom_bar(position = "fill")  + ylab("Proportion") +xlab("Whether you have diabetes") + scale_fill_discrete(name="sugar-sweetend drinks:")
+```
+
+At first glance it is a very surprising result! How it could be possible those who drink at least 1 per day has less chance to have diabetes!? But, if we look at the data again, we would find that the survey asking during the past 30 days that how often did you drink sugar-sweetened fruit drinks. However, a person may have been told that they have diabetes a month prior than survey! So, we need to look at to this bar plot from another perspective. It is better to think about the relationship between knowing that you have diabetes and drinking less amount of sugar-sweetened drinks!
+
+```{r}
+ggplot(new, aes(fill=diabete3, x=ssbfrut2))  + 
+    geom_bar(position = "fill")  + ylab("Proportion") + xlab("sugar-sweetend drinks:") + scale_fill_discrete(name="Whether you have diabetes")
+```
+
+
+So, it is possible that if you have diabetes you have more awareness to not consume sugar-sweetend drinks. 
+
+
+Let's now investigate the relaitonship beteween age and diabetes:
+
+```{r}
+question2 %>%
+  filter(diabage2 != ".b",diabage2 !=  "") %>%
+  group_by(diabage2) %>%
+  summarise(count=n()) 
+```
+
+
+```{r}
+new_age <-question2 %>%
+  filter(diabage2 != ".b",diabage2 !=  "") %>%
+  group_by(diabage2) 
+  
+new_age$diabage2 <- as.numeric(new_age$diabage2) 
+
+new_age_2 <- new_age%>% 
+  group_by(diabage2) 
+ggplot(new_age_2, aes(x=diabage2)) + geom_histogram(stat = "count")
+
+```
+
+
+We can see that as people get older the probability that they have diabetes increases. Though there might be a relationship between age and having diabetes. 
 
 **Research question 3:**
 
+Let's jump to the final research question EDA.First we separate these three variables from the dataset to easily work with them:
+
+```{r}
+question3 <-brfss2013 %>% 
+ select(exerany2,misdeprd,mishopls) %>% 
+ na.omit()
+```
+we can look the type of the variables using `str()` :
+
+
+```{r}
+question3 %>%
+  str()
+```
+
+Again use `group_by` together with `summarize` to view the value counts in the `exerany2` variable:
+```{r}
+question3%>% 
+  group_by(exerany2) %>% 
+  summarise(count = n())
+```
+
+Great , we only have the `Yes` and `No` , and it makes our job easy. Now we can see the exercise effect on mental health status.
+
+We can also investigate the distribution of two factoral varables :
 ```{r}
 
+ggplot(data=question3, aes(misdeprd)) + 
+  geom_bar()
+
 ```
+
+```{r}
+
+ggplot(data=question3, aes(mishopls)) + 
+  geom_bar()
+
+```
+
+
+Now, I want to see each factor variables relationship with exercising. 
+
+
+
+
+```{r}
+ggplot(question3, aes(fill=exerany2, x=misdeprd))  + 
+    geom_bar(position = "fill")  + ylab("Proportion") + xlab("How Often Feel Depressed Past 30 Days?") + scale_fill_discrete(name=" Exercise In Past 30 Days?")
+```
+
+
+There is a very strong relation between having exercise and depression reduction. We observe that people who less feel depressed in past 30 days are more likely to ecercise.  
+
+```{r}
+ggplot(question3, aes(fill=exerany2, x=mishopls))  + 
+    geom_bar(position = "fill")  + ylab("Proportion") + xlab("How Often Feel Hopeless Past 30 Days?") + scale_fill_discrete(name=" Exercise In Past 30 Days?")
+```
+
+The trend for the hopeless feeling almost is the same as depression. Again, we can see the strong relation with having exercise and reducing the hopeless feeling. So, let's always workout and be healthy! 
+
+
 
