@@ -41,9 +41,10 @@ The BRFSS objective is to collect uniform, state-specific data on preventive hea
 
 Health characteristics estimated from the BRFSS pertain to the non-institutionalized adult population, aged 18 years or older, who reside in the US. In 2013, additional question sets were included as optional modules to provide a measure for several childhood health and wellness indicators, including asthma prevalence for people aged 17 years or younger.
 
-### Review some concepts form the course useful answering the first question
+### Review some useful concepts 
+form [Introduction to Probability and Data course offered by Duke university](https://www.coursera.org/learn/probability-intro)
 
-Let's briefly review some concepts we have learned so far from the course. You may remember from [lecture video on week 1 Section: Observational Studies & Experiments](https://www.coursera.org/learn/probability-intro/lecture/Qw8iF/observational-studies-experiments), that  observational studies can provide evidence of a naturally occurring association between variables, but they cannot by themselves show a causal connection. Researchers perform an observational study when they collect data in a way that does not directly interfere with how the data arise. For instance, researchers may collect information via
+Observational studies can provide evidence of a naturally occurring association between variables, but they cannot by themselves show a causal connection. Researchers perform an observational study when they collect data in a way that does not directly interfere with how the data arise. For instance, researchers may collect information via
 surveys, review medical or company records, and etc.
 
 When researchers want to investigate the possibility of a causal connection, they conduct an experiment. To check if there really is a causal connection between the explanatory variable and the response, researchers will collect a sample of individuals and split them into groups. The individuals in each group are assigned a treatment. When individuals are randomly assigned to a group, the experiment is called a randomized experiment.
@@ -57,15 +58,13 @@ There is a good table categorizing these concepts from the course video in the w
 </center>
 
 
-### Answering the project's first question
 
-The question is :
 
-**Describe how the observations in the sample are collected, and the implications of this data collection method on the scope of inference (generalizability / causality).**
+Let's now investigate BRFSS dataset:
 
-Based on what we have reviewed and looking at the dataset information, we can say that this is an **observational study**. It states that in conducting the BRFSS landline telephone survey, interviewers collect data from a randomly selected adult in a household. We only have chosen samples randomly through selected adults, therefore resulted sample may represent the population. So,this study is generalizable to the population at large. However, we see that Since 2011, BRFSS conducts both landline telephone- and cellular telephone-based surveys. For the cellular telephone-based surveys, interviewers collect data from an adult who participates by using a cellular telephone and resides in a private residence or college housing. This part of the study is not randomly selected. Therefore, it may raise convenience bias. So, for this part, we would not generalize the sample to the whole population.  
+Based on what we have reviewed, we can say that BFRSS survey is an **observational study**. The reason is that in conducting the BRFSS landline telephone survey, interviewers collect data from a randomly selected adult in a household. We only have chosen samples randomly through selected adults, therefore resulted sample may represent the population. So,this study is generalizable to the population at large. However,Since 2011 BRFSS conducts both land-line telephone- and cellular telephone-based surveys. For the cellular telephone-based surveys, interviewers collect data from an adult who participates by using a cellular telephone and resides in a private residence or college housing. This part of the study is not randomly selected. Therefore, it may raise convenience bias. So, for this part, we would not generalize the sample to the whole population.  
 
-However, Since the study does not make use of any random assignment, it can't be used for causality study.Random assignment only occurs only in experimental settings. Through random assignment we ensure that different characteristics are represented equally in treatment and control groups. Also, random assignment allows us to make causal conclusions based on the study. 
+On the other hand, since the study does not use of any random assignment, it can't be used for causality study.Random assignment only occurs in experimental settings. Through random assignment we ensure that different characteristics are represented equally in treatment and control groups. Also, random assignment allows us to make causal conclusions based on the study. 
 
 
 * * *
